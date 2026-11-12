@@ -1,0 +1,8 @@
+{
+  "name": "Sheet - Hotel25 - Quản Lý Khách Sạn \u0026 Kênh OTA",
+  "description": "Hệ thống quản lý khách sạn 25 phòng chuyên nghiệp: sơ đồ phòng, check-in/out, bảng giá trực tiếp \u0026 kênh OTA (Agoda, Booking, Trip, Airbnb) kèm phí quản lý 150k, hóa đơn và báo cáo doanh thu.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

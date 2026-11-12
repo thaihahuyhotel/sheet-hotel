@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@media print {
+  /* Hide all background application elements when printing */
+  body * {
+    visibility: hidden;
+  }
+  
+  /* Only show the invoice print container */
+  #hotel-invoice-printable,
+  #hotel-invoice-printable * {
+    visibility: visible;
+  }
+
+  #hotel-invoice-printable {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 15mm;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .no-print,
+  button,
+  header,
+  footer,
+  .print-hidden {
+    display: none !important;
+  }
+}
