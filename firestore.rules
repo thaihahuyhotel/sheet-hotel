@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // Rooms collection for the 25 hotel rooms
+    match /rooms/{roomId} {
+      allow read: if true;
+      allow write: if isValidId(roomId);
+    }
+
+    // Bookings collection for guest reservations and check-ins
+    match /bookings/{bookingId} {
+      allow read: if true;
+      allow write: if isValidId(bookingId);
+    }
+
+    // Hotel settings and OTA configuration
+    match /settings/{settingsId} {
+      allow read: if true;
+      allow write: if isValidId(settingsId);
+    }
+
+    // Connection testing
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

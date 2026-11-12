@@ -5,7 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: '/sheet-hotel/',
+    base: './',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

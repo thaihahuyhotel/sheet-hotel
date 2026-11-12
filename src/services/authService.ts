@@ -1,22 +1,16 @@
-import { initializeApp, getApps } from 'firebase/app';
 import { 
-  getAuth, 
   signInWithPopup, 
   GoogleAuthProvider, 
   onAuthStateChanged, 
   User, 
   signOut as firebaseSignOut 
 } from 'firebase/auth';
-import firebaseConfig from '../../firebase-applet-config.json';
+import { app, auth } from './firebaseService';
 
 export const SCOPES = [
   'https://www.googleapis.com/auth/spreadsheets',
   'https://www.googleapis.com/auth/drive.file',
 ];
-
-// Initialize Firebase App singleton
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-export const auth = getAuth(app);
 
 const provider = new GoogleAuthProvider();
 SCOPES.forEach((scope) => {

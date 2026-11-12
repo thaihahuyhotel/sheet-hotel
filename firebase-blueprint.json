@@ -1,0 +1,87 @@
+{
+  "entities": {
+    "Room": {
+      "title": "Room",
+      "description": "Represents one of the 25 hotel rooms",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 32 },
+        "number": { "type": "string", "maxLength": 16 },
+        "floor": { "type": "number" },
+        "type": { "type": "string", "enum": ["standard_single", "standard_twin", "vip", "deluxe", "family"] },
+        "status": { "type": "string", "enum": ["available", "occupied", "reserved", "cleaning", "maintenance"] },
+        "bedDescription": { "type": "string", "maxLength": 128 },
+        "directPrice": { "type": "number" },
+        "currentBookingId": { "type": "string", "maxLength": 64 },
+        "cleaningNote": { "type": "string", "maxLength": 256 },
+        "lastCleanedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "number", "floor", "type", "status", "directPrice"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Guest reservation or active stay record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "bookingCode": { "type": "string", "maxLength": 64 },
+        "roomId": { "type": "string", "maxLength": 32 },
+        "roomNumber": { "type": "string", "maxLength": 16 },
+        "roomType": { "type": "string", "enum": ["standard_single", "standard_twin", "vip", "deluxe", "family"] },
+        "guestName": { "type": "string", "maxLength": 128 },
+        "guestPhone": { "type": "string", "maxLength": 32 },
+        "guestIdCard": { "type": "string", "maxLength": 32 },
+        "channel": { "type": "string", "enum": ["direct", "agoda", "booking", "trip", "airbnb"] },
+        "channelBookingRef": { "type": "string", "maxLength": 64 },
+        "checkInDate": { "type": "string", "maxLength": 32 },
+        "checkOutDate": { "type": "string", "maxLength": 32 },
+        "nights": { "type": "number" },
+        "roomPricePerNight": { "type": "number" },
+        "totalRoomPrice": { "type": "number" },
+        "managementFee": { "type": "number" },
+        "otaCommissionRate": { "type": "number" },
+        "otaCommissionAmount": { "type": "number" },
+        "services": { "type": "array" },
+        "deposit": { "type": "number" },
+        "discount": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "reserved", "completed", "cancelled"] },
+        "notes": { "type": "string", "maxLength": 512 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "checkedOutAt": { "type": "string", "maxLength": 64 },
+        "paymentMethod": { "type": "string", "enum": ["cash", "transfer", "card", "ota_collect"] }
+      },
+      "required": ["id", "bookingCode", "roomId", "roomNumber", "roomType", "guestName", "channel", "checkInDate", "checkOutDate", "nights", "status"]
+    },
+    "HotelSettings": {
+      "title": "HotelSettings",
+      "description": "General hotel configuration and pricing formulas",
+      "type": "object",
+      "properties": {
+        "hotelName": { "type": "string", "maxLength": 128 },
+        "hotelAddress": { "type": "string", "maxLength": 256 },
+        "hotelPhone": { "type": "string", "maxLength": 32 },
+        "hotelEmail": { "type": "string", "maxLength": 128 },
+        "defaultManagementFee": { "type": "number" },
+        "channelCommissions": { "type": "object" },
+        "pricingFormula": { "type": "string", "enum": ["net_guaranteed", "simple_markup"] },
+        "roundingMethod": { "type": "string", "enum": ["1000", "10000", "none"] },
+        "servicesList": { "type": "array" }
+      },
+      "required": ["hotelName", "defaultManagementFee", "channelCommissions"]
+    }
+  },
+  "firestore": {
+    "/rooms/{roomId}": {
+      "schema": { "$ref": "#/entities/Room" },
+      "description": "Collection of all 25 rooms with real-time status"
+    },
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "Collection of active, reserved, and completed hotel bookings"
+    },
+    "/settings/{settingsId}": {
+      "schema": { "$ref": "#/entities/HotelSettings" },
+      "description": "Singleton configuration document for hotel settings and OTA fees"
+    }
+  }
+}

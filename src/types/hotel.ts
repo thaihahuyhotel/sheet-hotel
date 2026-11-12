@@ -37,9 +37,9 @@ export interface Room {
   status: RoomStatus;
   bedDescription: string;
   directPrice: number;
-  currentBookingId?: string;
-  cleaningNote?: string;
-  lastCleanedAt?: string;
+  currentBookingId?: string | null;
+  cleaningNote?: string | null;
+  lastCleanedAt?: string | null;
 }
 
 export interface BookingServiceItem {

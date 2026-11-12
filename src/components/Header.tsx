@@ -12,17 +12,17 @@ import {
   BarChart3, 
   FileText,
   BedDouble,
-  FileSpreadsheet
+  Database
 } from 'lucide-react';
 
 interface HeaderProps {
-  currentView: 'rooms' | 'ota' | 'bookings' | 'analytics' | 'sheets';
-  onChangeView: (view: 'rooms' | 'ota' | 'bookings' | 'analytics' | 'sheets') => void;
+  currentView: 'rooms' | 'ota' | 'bookings' | 'analytics' | 'database';
+  onChangeView: (view: 'rooms' | 'ota' | 'bookings' | 'analytics' | 'database') => void;
   settings: HotelSettings;
   rooms: Room[];
   onOpenQuickBooking: () => void;
   onOpenSettings: () => void;
-  isSheetConnected?: boolean;
+  isRealtimeConnected?: boolean;
 }
 
 export default function Header({
@@ -32,7 +32,7 @@ export default function Header({
   rooms,
   onOpenQuickBooking,
   onOpenSettings,
-  isSheetConnected = false,
+  isRealtimeConnected = true,
 }: HeaderProps) {
   const [time, setTime] = useState<string>('');
   const [date, setDate] = useState<string>('');
@@ -89,9 +89,18 @@ export default function Header({
             </div>
           </div>
 
-          {/* Quick Room Occupancy Status Pills (Hidden on small mobile) */}
+          {/* Quick Room Occupancy Status Pills & Live Sync Pill */}
           <div className="hidden md:flex items-center gap-2 text-xs">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold">
+            <span
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold shadow-2xs cursor-pointer hover:bg-emerald-100 transition-colors"
+              title="Cơ sở dữ liệu Firestore tự động đồng bộ thời gian thực cho tất cả người dùng"
+              onClick={() => onChangeView('database')}
+            >
+              <span className={`w-2 h-2 rounded-full ${isRealtimeConnected ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
+              Firestore Realtime
+            </span>
+
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 text-slate-700 border border-slate-200 font-semibold">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               {available} Trống
             </span>
@@ -184,17 +193,17 @@ export default function Header({
           </button>
 
           <button
-            onClick={() => onChangeView('sheets')}
+            onClick={() => onChangeView('database')}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
-              currentView === 'sheets'
+              currentView === 'database'
                 ? 'bg-emerald-600 text-white shadow-sm'
                 : 'text-slate-600 hover:text-emerald-800 hover:bg-emerald-50'
             }`}
           >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Google Sheets & Dữ Liệu</span>
-            {isSheetConnected && (
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Đã kết nối Google Sheet" />
+            <Database className="w-3.5 h-3.5 text-emerald-500" />
+            <span>Dữ Liệu Realtime (Firestore)</span>
+            {isRealtimeConnected && (
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Đang đồng bộ trực tiếp" />
             )}
           </button>
         </div>

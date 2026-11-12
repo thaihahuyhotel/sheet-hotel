@@ -29,6 +29,7 @@ interface AnalyticsViewProps {
   settings: HotelSettings;
   onNavigateToRooms?: () => void;
   onNavigateToSheets?: () => void;
+  onNavigateToDatabase?: () => void;
 }
 
 export default function AnalyticsView({ 
@@ -36,7 +37,8 @@ export default function AnalyticsView({
   rooms, 
   settings,
   onNavigateToRooms,
-  onNavigateToSheets 
+  onNavigateToSheets,
+  onNavigateToDatabase
 }: AnalyticsViewProps) {
   // Current date baseline
   const currentDate = new Date();
@@ -459,7 +461,15 @@ export default function AnalyticsView({
                 <span>Xem Sơ Đồ & Đặt Phòng</span>
               </button>
             )}
-            {onNavigateToSheets && (
+            {onNavigateToDatabase ? (
+              <button
+                onClick={onNavigateToDatabase}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-xl text-xs font-bold transition-all"
+              >
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <span>Xem Dữ Liệu Realtime (Firestore)</span>
+              </button>
+            ) : onNavigateToSheets && (
               <button
                 onClick={onNavigateToSheets}
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-xl text-xs font-bold transition-all"
